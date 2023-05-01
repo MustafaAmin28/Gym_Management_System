@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import '../components/person_card.dart';
 import '../constants.dart';
 import '../models/trainer_model.dart';
-import '../services/users.dart';
-import 'profile_screen.dart';
+import 'trainer_profile_screen.dart';
 
-class TrainersScreen extends StatelessWidget {
-  TrainersScreen({super.key, required this.className});
-  final String className;
-
+// ignore: must_be_immutable
+class TrainersScreen extends StatefulWidget {
+  TrainersScreen({super.key, required this.trainers});
   List trainers = [];
+  @override
+  State<TrainersScreen> createState() => _TrainersScreenState();
+}
 
+class _TrainersScreenState extends State<TrainersScreen> {
   @override
   Widget build(BuildContext context) {
-    getTrainers();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -25,28 +25,20 @@ class TrainersScreen extends StatelessWidget {
       ),
       body: ListView.builder(
           physics: const BouncingScrollPhysics(),
-          itemCount: trainers.length,
+          itemCount: widget.trainers.length,
           itemBuilder: (context, index) {
             return PersonCard(
-              height: 140,
+              height: 100,
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProfileScreen(
-                    person: TrainerModel.fromMap(trainers[index]),
+                  return TrainerProfileScreen(
+                    trainer: TrainerModel.trainersFromMap(widget.trainers[index]),
                   );
                 }));
               },
-              person: TrainerModel.fromMap(trainers[index]),
+              person: TrainerModel.trainersFromMap(widget.trainers[index]),
             );
           }),
     );
-  }
-
-  getTrainers() {
-    for (int i = 0; i < Users.length; i++) {
-      if (Users[i]['role'] == 'trainer') {
-        trainers.add(Users[i]);
-      }
-    }
   }
 }

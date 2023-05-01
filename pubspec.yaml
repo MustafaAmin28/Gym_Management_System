@@ -51,6 +51,8 @@ dependencies:
   firebase_messaging: ^14.2.4
   flutter_local_notifications: ^8.2.0
   http: ^0.13.5
+  shared_preferences: ^2.0.18
+  video_thumbnail: ^0.5.3
 
 # flutter_icons:
 #   android: true
@@ -61,6 +63,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.12.0
+
+flutter_icons:
+  android: true
+  image_path: "assets/images/Icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -83,24 +90,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/Classes pics/
-    - assets/Exercises/Chest/
-    - assets/Exercises/Chest/Thumbnails/
-    - assets/Exercises/Chest/Videos/
-    - assets/Exercises/Back/
-    - assets/Exercises/Back/Thumbnails/
-    - assets/Exercises/Back/Videos/
-    - assets/Exercises/Legs/
-    - assets/Exercises/Legs/Thumbnails/
-    - assets/Exercises/Legs/Videos/
-    - assets/Exercises/Shoulders/
-    - assets/Exercises/Shoulders/Thumbnails/
-    - assets/Exercises/Shoulders/Videos/
-    - assets/Exercises/Arm/
-    - assets/Exercises/Arm/Thumbnails/
-    - assets/Exercises/Arm/Videos/
-    - assets/images/Recipes Pics/
-    - assets/Exercises/Warm_Up/Upper_Parts/
-    - assets/Exercises/Warm_Up/Lower_Parts/
+    - assets/Exercises/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -117,9 +107,7 @@ flutter:
     - family: Patua One
       fonts:
         - asset: assets/fonts/PatuaOne-Regular.ttf
-    - family: Cairo
-      fonts:
-        - asset: assets/fonts/Cairo-VariableFont_slnt,wght.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

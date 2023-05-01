@@ -1,69 +1,52 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:gym_graduation_app/constants.dart';
+
 class PersonModel {
-  final String role;
+  final String? role;
   final String? deviceToken;
-  final String? username;
-  final String? password;
-  final int id;
+  final String id;
   final String name;
-  final int age;
   final String email;
-  final String phone;
-  final String image;
-  num? height;
-  num? weight;
-  List contractors;
+  final String? photo;
+  num? age;
+  List private;
 
   PersonModel({
-    required this.role,
+    this.role = "user",
     this.deviceToken,
-    this.username,
-    this.password,
     required this.id,
     required this.name,
-    required this.age,
     required this.email,
-    required this.phone,
-    this.image = "",
-    this.height,
-    this.weight,
-    this.contractors = const [],
+    required this.photo,
+    this.age,
+    this.private = const [],
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'role': role,
-      'deviceToken': deviceToken,
-      'username': username,
-      'password': password,
-      'id': id,
-      'name': name,
-      'age': age,
-      'email': email,
-      'phone': phone,
-      'image': image,
-      'height': height,
-      'weight': weight,
-      'contractors': contractors,
+      "role": role,
+      "deviceToken": deviceToken,
+      "id": id,
+      "name": name,
+      "email": email,
+      "photo": photo,
+      "age": age,
+      "private": private,
     };
   }
 
   factory PersonModel.fromMap(Map<String, dynamic> map) {
     return PersonModel(
-      role: map['role'],
-      deviceToken: map['deviceToken'],
-      username: map['username'],
-      password: map['password'],
-      id: map['id'] as int,
-      name: map['name'],
-      age: map['age'] as int,
-      email: map['email'],
-      phone: map['phone'],
-      image: map['image'],
-      height: map['height'] != null ? map['height'] as num : null,
-      weight: map['weight'] != null ? map['weight'] as num : null,
-      contractors: List.from(map['contractors'] as List),
+      role: map["user"]["role"],
+      deviceToken: map["user"]["deviceToken"],
+      id: map["user"]["_id"],
+      name: map["user"]["name"],
+      email: map["user"]["email"],
+      photo: 'http://$server/img/users/${map["user"]["photo"]}',
+      age: map["user"]["age"],
+      // private: List.from(map["private"]["trainer"] as List),
     );
   }
 
@@ -74,32 +57,25 @@ class PersonModel {
   PersonModel copyWith({
     String? role,
     String? deviceToken,
-    String? username,
-    String? password,
-    int? id,
+    String? id,
     String? name,
-    int? age,
     String? email,
-    String? phone,
-    String? image,
-    num? height,
-    num? weight,
-    List? contractors,
+    String? photo,
+    List? private,
   }) {
     return PersonModel(
       role: role ?? this.role,
       deviceToken: deviceToken ?? this.deviceToken,
-      username: username ?? this.username,
-      password: password ?? this.password,
       id: id ?? this.id,
       name: name ?? this.name,
-      age: age ?? this.age,
       email: email ?? this.email,
-      phone: phone ?? this.phone,
-      image: image ?? this.image,
-      height: height ?? this.height,
-      weight: weight ?? this.weight,
-      contractors: contractors ?? this.contractors,
+      photo: photo ?? this.photo,
+      private: private ?? this.private,
     );
+  }
+
+  @override
+  String toString() {
+    return 'PersonModel(role: $role, deviceToken: $deviceToken, id: $id, name: $name, email: $email, photo: $photo, age: $age, private: $private)';
   }
 }

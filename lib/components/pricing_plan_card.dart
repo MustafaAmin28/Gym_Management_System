@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'custom_elevated_button.dart';
 
+// ignore: must_be_immutable
 class PricingPlanCard extends StatelessWidget {
-  PricingPlanCard(
-      {required this.planName, required this.price, required this.features});
+  PricingPlanCard({super.key, required this.planName, required this.price, required this.features});
   final String planName;
   final double price;
   List<String> features = [];
@@ -24,8 +24,7 @@ class PricingPlanCard extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: kPrimaryColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
             padding: const EdgeInsets.symmetric(vertical: 8),
             width: double.infinity,
@@ -34,20 +33,14 @@ class PricingPlanCard extends StatelessWidget {
               children: [
                 Text(
                   planName,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
                   '$price\$ /Month',
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -67,12 +60,7 @@ class PricingPlanCard extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 1),
-          CustomElevatedButton(
-              buttonText: 'Subscribe Now',
-              height: 45,
-              width: 80,
-              buttonColor: kPrimaryColor,
-              onTap: () {})
+          CustomElevatedButton(buttonText: 'Subscribe Now', height: 45, width: 80, buttonColor: kPrimaryColor, onTap: () {})
         ],
       ),
     );

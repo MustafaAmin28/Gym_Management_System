@@ -24,7 +24,7 @@ class CalculatorsScreen extends StatelessWidget {
             height: 20,
           ),
           CustomInkWell(
-            height: 200,
+            height: 140,
             image: 'assets/images/bmi_background.jpg',
             title: 'BMI',
             onTap: () {
@@ -39,7 +39,7 @@ class CalculatorsScreen extends StatelessWidget {
             height: 10,
           ),
           CustomInkWell(
-            height: 200,
+            height: 140,
             image: 'assets/images/bmr_background.jpg',
             title: 'BMR',
             onTap: () {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gym_graduation_app/helper/api.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
 import '../models/trainee_model.dart';
-import '../services/users.dart';
 import 'dart:io' show Platform;
 
-import 'profile_screen.dart';
+import 'trainee_profile_screen.dart';
 
 class QrScannerScreen extends StatefulWidget {
   const QrScannerScreen({super.key});
@@ -43,20 +43,21 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     this.controller = controller;
     scannedQr = true;
     controller.resumeCamera();
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        isFound = false;
-        result = scanData;
-        scannedTrainee = null;
-        controller.pauseCamera();
-        for (int i = 0; i < Users.length; i++) {
-          if (scanData.code == Users[i]['id'].toString()) {
-            isFound = true;
-            scannedTrainee = TraineeModel.fromMap(Users[i]);
-          }
-        }
-        showResultDialog(context);
-      });
+    controller.scannedDataStream.listen((scanData) async {
+      isFound = false;
+      result = scanData;
+      scannedTrainee = null;
+      controller.pauseCamera();
+      //ToDo
+      final response = await Api.getUser(userId: scanData.code);
+
+      if (response["status"] == "success") {
+        isFound = true;
+        scannedTrainee = TraineeModel.fromMap(response);
+      }
+      showResultDialog(context);
+      setState(() {});
+      // ignore: use_build_context_synchronously
     });
   }
 
@@ -88,8 +89,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           backgroundColor: kBackgroundColor,
           title: const Center(
             child: Text("Result", style: TextStyle(color: Colors.white)),
@@ -107,11 +107,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                     height: 15,
                   ),
                   const Align(
-                    child: Text("User is found ",
-                        style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
+                    child: Text("User is found ", style: TextStyle(color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(
                     height: 15,
@@ -127,9 +123,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                             controller!.resumeCamera();
                             Navigator.pop(context);
                           },
-                          child: const Text("Scan Again",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 14))),
+                          child: const Text("Scan Again", style: TextStyle(color: Colors.white, fontSize: 14))),
                       TextButton(
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.grey,
@@ -138,14 +132,11 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                             controller!.resumeCamera();
                             isFound = false;
                             Navigator.pop(context);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ProfileScreen(person: scannedTrainee!);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return TraineeProfileScreen(trainee: scannedTrainee!);
                             }));
                           },
-                          child: const Text("Go to Profile",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14)))
+                          child: const Text("Go to Profile", style: TextStyle(color: Colors.white, fontSize: 14)))
                     ],
                   )
                 ]
@@ -161,11 +152,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                     height: 15,
                   ),
                   const Align(
-                    child: Text("User is not found ",
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
+                    child: Text("User is not found ", style: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(
                     height: 15,
@@ -181,9 +168,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                             controller!.resumeCamera();
                             Navigator.pop(context);
                           },
-                          child: const Text("Scan Again",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 14))),
+                          child: const Text("Scan Again", style: TextStyle(color: Colors.white, fontSize: 14))),
                     ],
                   )
                 ]),

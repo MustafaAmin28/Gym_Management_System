@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
   String hintText, labelText;
   IconButton? ico;
@@ -11,26 +12,31 @@ class CustomTextFormField extends StatelessWidget {
   TextInputType? keyboardType;
   List<TextInputFormatter>? regExp;
   TextEditingController? controller;
+  int? maxLines;
 
   String? Function(String?)? validate;
   CustomTextFormField(
-      {required this.hintText,
+      {super.key,
+      required this.hintText,
       required this.labelText,
       this.hidden = false,
       this.ico,
-      required this.onChange,
+      this.onChange,
       this.validate,
       this.mainColor = Colors.white,
       this.fillColor,
       this.keyboardType,
       this.regExp,
-      this.controller});
+      this.controller,
+      this.maxLines = 1});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        minLines: 1,
+        maxLines: maxLines,
         controller: controller,
         validator: validate,
         obscureText: hidden,

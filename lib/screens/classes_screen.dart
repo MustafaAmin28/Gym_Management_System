@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/custom_inkwell.dart';
-import '../models/trainClass_model.dart';
+import '../models/train_class_model.dart';
 import 'class_screen.dart';
 
 class ClassesScreen extends StatelessWidget {

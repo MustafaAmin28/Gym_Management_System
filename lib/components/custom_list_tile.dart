@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 
+// ignore: must_be_immutable
 class CustomListTile extends StatelessWidget {
-  CustomListTile(
-      {this.onTap,
-      this.border = false,
-      required this.leading,
-      required this.title,
-      this.icon});
-  Widget? leading;
+  CustomListTile({super.key, this.onTap, this.border = false, this.leading, this.trailing, required this.title});
+
   String title;
-  IconData? icon;
+  IconData? leading, trailing;
   bool border;
   void Function()? onTap;
   @override
@@ -23,8 +18,11 @@ class CustomListTile extends StatelessWidget {
         title,
         style: const TextStyle(color: Colors.white, fontSize: 18),
       ),
-      leading: leading,
-      trailing: Icon(icon),
+      leading: leading == null ? null : Icon(leading),
+      trailing: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: Icon(trailing),
+      ),
       shape: border
           ? const RoundedRectangleBorder(
               side: BorderSide(color: kPrimaryColor),

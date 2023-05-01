@@ -39,10 +39,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     padding: EdgeInsets.only(top: 14),
                     child: Text(
                       "Height",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -53,10 +50,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     children: [
                       Text(
                         "$height",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            color: Colors.white),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color: Colors.white),
                       ),
                       const Text(
                         " cm",
@@ -70,10 +64,8 @@ class _BmiScreenState extends State<BmiScreen> {
                         inactiveTrackColor: const Color(0xff8d8e98),
                         thumbColor: kPrimaryColor,
                         overlayColor: Colors.orange,
-                        thumbShape: const RoundSliderThumbShape(
-                            enabledThumbRadius: 15.0),
-                        overlayShape:
-                            const RoundSliderOverlayShape(overlayRadius: 30.0)),
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0)),
                     child: Slider(
                         value: height.toDouble(),
                         min: 80.0,
@@ -102,10 +94,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     padding: EdgeInsets.only(top: 14),
                     child: Text(
                       "Weight",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -116,10 +105,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     children: [
                       Text(
                         "$weight",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            color: Colors.white),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color: Colors.white),
                       ),
                       const Text(
                         " kg",
@@ -133,10 +119,8 @@ class _BmiScreenState extends State<BmiScreen> {
                         inactiveTrackColor: const Color(0xff8d8e98),
                         thumbColor: kPrimaryColor,
                         overlayColor: Colors.orange,
-                        thumbShape: const RoundSliderThumbShape(
-                            enabledThumbRadius: 15.0),
-                        overlayShape:
-                            const RoundSliderOverlayShape(overlayRadius: 30.0)),
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0)),
                     child: Slider(
                         value: weight.toDouble(),
                         min: 20.0,
@@ -194,8 +178,8 @@ class _BmiScreenState extends State<BmiScreen> {
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           backgroundColor: kBackgroundColor,
           title: const Center(
             child: Text("Result", style: TextStyle(color: Colors.white)),
@@ -204,13 +188,11 @@ class _BmiScreenState extends State<BmiScreen> {
             const SizedBox(
               height: 15,
             ),
-            Text("Your bmi is $bmi",
-                style: const TextStyle(color: Colors.white, fontSize: 16)),
+            Text("Your bmi is $bmi", style: const TextStyle(color: Colors.white, fontSize: 16)),
             const SizedBox(
               height: 15,
             ),
-            Text("$bmiDescription",
-                style: const TextStyle(color: Colors.white, fontSize: 16)),
+            Text("$bmiDescription", style: const TextStyle(color: Colors.white, fontSize: 16)),
           ]),
     );
   }

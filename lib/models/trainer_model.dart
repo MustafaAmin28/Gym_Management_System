@@ -1,78 +1,96 @@
 import 'dart:convert';
 
+import 'package:gym_graduation_app/constants.dart';
 import 'package:gym_graduation_app/models/trainee_model.dart';
 
 import 'person_model.dart';
 
 class TrainerModel extends PersonModel {
-  final String trainClass;
   final String biography;
-  final int yearsOfExp;
+  final String experience;
+  String phone;
+  List skills;
 
   TrainerModel({
-    required String role,
-    String? username,
-    String? password,
-    required int id,
+    required String id,
+    String role = "trainer",
     required String name,
-    required int age,
+    String? photo,
+    required num age,
     required String email,
-    required String phone,
-    required this.trainClass,
+    required this.phone,
     required this.biography,
-    required this.yearsOfExp,
-    dynamic image,
-    num? height,
-    num? weight,
-    List? contractors,
-  }) : super(
-            role: role, username: username, password: password, id: id, name: name, age: age, email: email, phone: phone, image: image, height: height, weight: weight, contractors: contractors ?? []);
+    required this.experience,
+    required this.skills,
+    List? private,
+  }) : super(role: role, id: id, name: name, email: email, private: private ?? [], photo: photo);
 
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'role': role,
-      'username': username,
-      'password': password,
-      'id': id,
-      'name': name,
-      'age': age,
-      'email': email,
-      'phone': phone,
-      'image': image,
-      'weight': weight,
-      'height': height,
-      'trainClass': trainClass,
-      'biography': biography,
-      'yearsOfExp': yearsOfExp,
-      'contractors': contractors.map((x) => x.toMap()).toList(),
+      "role": role,
+      "_id": id,
+      "name": name,
+      "skills": skills,
+      "age": age,
+      "email": email,
+      "phone": phone,
+      "image": photo,
+      "biography": biography,
+      "experience": experience,
+      "private": private.map((x) => x.toMap()).toList(),
     };
   }
 
   factory TrainerModel.fromMap(Map<String, dynamic> map) {
     return TrainerModel(
-      role: map['role'],
-      username: map['username'],
-      password: map['password'],
-      id: map['id'],
-      name: map['name'],
-      age: map['age'],
-      email: map['email'],
-      phone: map['phone'],
-      image: map['image'] ?? 'assets/images/Trainer_avatar.png',
-      weight: map['weight'],
-      height: map['height'],
-      trainClass: map['trainClass'],
-      biography: map['biography'],
-      yearsOfExp: map['yearsOfExp'],
-      contractors: map['contractors'] == null
-          ? []
-          : List<TraineeModel>.from(
-              map['contractors'].map((x) => TraineeModel.fromMap(x)),
-            ),
+        role: map["trainer"]["role"] ?? "trainer",
+        id: map["trainer"]["_id"],
+        name: map["trainer"]["name"],
+        age: map["trainer"]["age"],
+        skills: map["trainer"]["skills"] ?? [],
+        email: map["trainer"]["email"],
+        phone: map["trainer"]["phone"],
+        photo: map["trainer"]["image"] == null ? null : "http://$server/img/trainers/${map["trainer"]["image"]}",
+        biography: map["trainer"]["biography"],
+        experience: map["trainer"]["experience"],
+        private: map["private"] == null
+            ? []
+            : (map["private"] is List)
+                ? List<TraineeModel>.from(map["private"].map((x) => TraineeModel.fromPrivateMap(x["trainee"])))
+                : [TraineeModel.fromPrivateMap(map["private"]["trainee"])]);
+  }
+  factory TrainerModel.trainersFromMap(Map<String, dynamic> map) {
+    return TrainerModel(
+      role: map["role"] ?? "trainer",
+      id: map["_id"],
+      name: map["name"],
+      age: map["age"],
+      skills: map["skills"] ?? [],
+      email: map["email"],
+      phone: map["phone"],
+      photo: map["image"] == null ? null : "http://$server/img/trainers/${map["image"]}",
+      biography: map["biography"],
+      experience: map["experience"],
     );
   }
 
+  factory TrainerModel.fromPrivateMap(Map<String, dynamic> map) {
+    return TrainerModel(
+      role: map["role"] ?? "trainer",
+      id: map["_id"],
+      name: map["name"],
+      age: map["age"],
+      skills: map["skills"] ?? [],
+      email: map["email"],
+      phone: map["phone"],
+      photo: map["image"] == null ? null : "http://$server/img/trainers/${map["image"]}",
+      biography: map["biography"],
+      experience: map["experience"],
+    );
+  }
+
+  @override
   String toJson() => json.encode(toMap());
 
   factory TrainerModel.fromJson(String source) => TrainerModel.fromMap(jsonDecode(source));

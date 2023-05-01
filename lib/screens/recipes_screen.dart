@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:gym_graduation_app/models/recipe_model.dart';
 import '../components/custom_inkwell.dart';
 import '../constants.dart';
-import '../services/recipes.dart';
 import 'recipe_details_screen.dart';
 
+// ignore: must_be_immutable
 class RecipesScreen extends StatelessWidget {
-  const RecipesScreen({super.key});
+  RecipesScreen({super.key, required this.recipesList});
+  List<RecipeModel> recipesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +20,16 @@ class RecipesScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: recipes.length,
+        itemCount: recipesList.length,
         itemBuilder: ((context, index) {
           return CustomInkWell(
+            isNetworkImg: true,
             textBackgroundColor: Colors.white.withOpacity(0.2),
-            image: recipes[index].imgPath,
-            title: recipes[index].name,
+            image: recipesList[index].img!,
+            title: recipesList[index].name,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return RecipeDetailsScreen(recipe: recipes[index]);
+                return RecipeDetailsScreen(recipe: recipesList[index]);
               }));
             },
           );

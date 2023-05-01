@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../models/person_model.dart';
 
+import 'package:gym_graduation_app/constants.dart';
+import '../models/person_model.dart';
+import '../screens/full_screen_file.dart';
+
+// ignore: must_be_immutable
 class PersonCard extends StatelessWidget {
-  PersonCard({super.key, required this.person, this.height = 200, required this.onTap, this.selectedProfileImage});
+  PersonCard({super.key, required this.person, this.height = 100, required this.onTap, this.selectedProfileImage});
   PersonModel person;
   double? height;
   Uint8List? selectedProfileImage;
@@ -13,19 +18,28 @@ class PersonCard extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
         margin: const EdgeInsets.all(8),
         color: Colors.grey.shade800,
         child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(8),
               child: Row(children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage(person.image),
+                GestureDetector(
+                  onTap: () => Navigator.push(context, FullScreenImage(imageUrl: person.photo)),
+                  child: CircleAvatar(
+                    backgroundColor: kPrimaryColor,
+                    radius: 35,
+                    backgroundImage: person.photo == null
+                        ? const AssetImage(kPersonAvatar)
+                        : CachedNetworkImageProvider(scale: 0.5, person.photo!, errorListener: () => AssetImage(kFailedNetworkImage)) as ImageProvider,
+                  ),
                 ),
                 const VerticalDivider(
-                  thickness: 2,
+                  thickness: 1,
                   color: Colors.grey,
                   indent: 6,
                   endIndent: 6,
@@ -33,25 +47,15 @@ class PersonCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          person.name,
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
+                      Text(
+                        person.name,
+                        style: const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                       const SizedBox(
                         height: 20,
-                      ),
-                      Text(
-                        'Age: ${person.age}',
-                        style: const TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      const SizedBox(
-                        height: 5,
                       ),
                     ],
                   ),

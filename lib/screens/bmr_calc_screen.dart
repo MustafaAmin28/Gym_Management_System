@@ -33,23 +33,22 @@ class _BmrScreenState extends State<BmrScreen> {
         title: const Text("Calculators"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+        padding: const EdgeInsets.all(8),
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   "Your Goal:",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 Radio(
-                    fillColor: MaterialStateColor.resolveWith(
-                        (states) => kPrimaryColor),
+                    fillColor: MaterialStateColor.resolveWith((states) => kPrimaryColor),
                     value: 1,
                     groupValue: _radioSelectedValue,
                     onChanged: (value) {
@@ -67,8 +66,7 @@ class _BmrScreenState extends State<BmrScreen> {
                   width: 20,
                 ),
                 Radio(
-                    fillColor: MaterialStateColor.resolveWith(
-                        (states) => kPrimaryColor),
+                    fillColor: MaterialStateColor.resolveWith((states) => kPrimaryColor),
                     value: 2,
                     groupValue: _radioSelectedValue,
                     onChanged: (value) {
@@ -96,9 +94,7 @@ class _BmrScreenState extends State<BmrScreen> {
                     height: 130,
                     width: 170,
                     decoration: BoxDecoration(
-                      color: selectedGender == Gender.male
-                          ? Colors.grey.shade700
-                          : Colors.grey,
+                      color: selectedGender == Gender.male ? Colors.grey.shade700 : Colors.grey,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -132,9 +128,7 @@ class _BmrScreenState extends State<BmrScreen> {
                     height: 130,
                     width: 170,
                     decoration: BoxDecoration(
-                      color: selectedGender == Gender.female
-                          ? Colors.grey.shade700
-                          : Colors.grey,
+                      color: selectedGender == Gender.female ? Colors.grey.shade700 : Colors.grey,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -158,9 +152,10 @@ class _BmrScreenState extends State<BmrScreen> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Container(
+              height: 140,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.grey,
@@ -169,27 +164,21 @@ class _BmrScreenState extends State<BmrScreen> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 14),
+                    padding: EdgeInsets.only(top: 10),
                     child: Text(
                       "Height",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 6,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "$height",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            color: Colors.white),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 32, color: Colors.white),
                       ),
                       const Text(
                         " cm",
@@ -203,10 +192,8 @@ class _BmrScreenState extends State<BmrScreen> {
                         inactiveTrackColor: const Color(0xff8d8e98),
                         thumbColor: kPrimaryColor,
                         overlayColor: const Color(0x29eb1555),
-                        thumbShape: const RoundSliderThumbShape(
-                            enabledThumbRadius: 15.0),
-                        overlayShape:
-                            const RoundSliderOverlayShape(overlayRadius: 30.0)),
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0)),
                     child: Slider(
                         value: height.toDouble(),
                         min: 60.0,
@@ -221,7 +208,7 @@ class _BmrScreenState extends State<BmrScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Row(
               children: [
@@ -238,10 +225,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         padding: EdgeInsets.only(top: 14),
                         child: Text(
                           "Weight",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
                         ),
                       ),
                       const SizedBox(
@@ -252,10 +236,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         children: [
                           Text(
                             '$weight',
-                            style: const TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                           const Text(
                             ' Kg',
@@ -280,8 +261,7 @@ class _BmrScreenState extends State<BmrScreen> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(20),
-                              backgroundColor:
-                                  Colors.grey.shade400, // <-- Button color
+                              backgroundColor: Colors.grey.shade400, // <-- Button color
                               // <-- Splash color
                             ),
                             child: const Icon(
@@ -301,8 +281,7 @@ class _BmrScreenState extends State<BmrScreen> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(20),
-                              backgroundColor:
-                                  Colors.grey.shade400, // <-- Button color
+                              backgroundColor: Colors.grey.shade400, // <-- Button color
                               // <-- Splash color
                             ),
                             child: const Icon(
@@ -331,10 +310,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         padding: EdgeInsets.only(top: 14),
                         child: Text(
                           "Age",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
                         ),
                       ),
                       const SizedBox(
@@ -345,10 +321,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         children: [
                           Text(
                             '$age',
-                            style: const TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                           const Text(
                             ' Years',
@@ -376,8 +349,7 @@ class _BmrScreenState extends State<BmrScreen> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(20),
-                              backgroundColor:
-                                  Colors.grey.shade400, // <-- Button color
+                              backgroundColor: Colors.grey.shade400, // <-- Button color
                               // <-- Splash color
                             ),
                             child: const Icon(
@@ -397,8 +369,7 @@ class _BmrScreenState extends State<BmrScreen> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(20),
-                              backgroundColor:
-                                  Colors.grey.shade400, // <-- Button color
+                              backgroundColor: Colors.grey.shade400, // <-- Button color
                               // <-- Splash color
                             ),
                             child: const Icon(
@@ -425,8 +396,7 @@ class _BmrScreenState extends State<BmrScreen> {
                   minRating: 1,
                   itemCount: 4,
                   unratedColor: Colors.grey,
-                  itemPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   itemBuilder: (context, _) => const Icon(
                     Icons.circle,
                     color: kPrimaryColor,
@@ -462,10 +432,10 @@ class _BmrScreenState extends State<BmrScreen> {
             ),
             Text(
               activityFactorDescription[descriptionIndex],
-              style: const TextStyle(color: Colors.white, fontSize: 16),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
             const SizedBox(
-              height: 25,
+              height: 15,
             ),
             CustomElevatedButton(
                 buttonText: "Calculate",
@@ -484,12 +454,9 @@ class _BmrScreenState extends State<BmrScreen> {
 
   void bmrCalculate() {
     if (selectedGender == Gender.male) {
-      bmr = (((10 * weight) + (6.25 * height) - (5 * age) + 5) * activityFactor)
-          .round();
+      bmr = (((10 * weight) + (6.25 * height) - (5 * age) + 5) * activityFactor).round();
     } else if (selectedGender == Gender.female) {
-      bmr =
-          (((10 * weight) + (6.25 * height) - (5 * age) - 161) * activityFactor)
-              .round();
+      bmr = (((10 * weight) + (6.25 * height) - (5 * age) - 161) * activityFactor).round();
     } else {
       bmr = 0;
     }
@@ -499,67 +466,45 @@ class _BmrScreenState extends State<BmrScreen> {
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         backgroundColor: kBackgroundColor,
         title: Center(
-          child: bmr == 0
-              ? const Text("Error", style: TextStyle(color: Colors.white))
-              : const Text("Result", style: TextStyle(color: Colors.white)),
+          child: bmr == 0 ? const Text("Error", style: TextStyle(color: Colors.white)) : const Text("Result", style: TextStyle(color: Colors.white)),
         ),
         children: bmr == 0
             ? [
                 const SizedBox(
                   height: 15,
                 ),
-                const Text("Please choose your gender.",
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
+                const Text("Please choose your gender.", style: TextStyle(color: Colors.white, fontSize: 16)),
               ]
             : [
                 const SizedBox(
                   height: 15,
                 ),
-                Text("You need $bmr Calories to maintain your current weight.",
-                    style: const TextStyle(color: Colors.white, fontSize: 16)),
+                Text("You need $bmr Calories to maintain your current weight.", style: const TextStyle(color: Colors.white, fontSize: 16)),
                 const Divider(
                   thickness: 1,
                   color: Colors.white,
                 ),
                 _radioSelectedValue == 1
-                    ? Text(
-                        "You need ${(bmr * 1.12).round()} Calories for Mild weight gain (0.25 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16))
-                    : Text(
-                        "You need ${(bmr * 0.88).round()} Calories for Mild weight loss (0.25 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16)),
+                    ? Text("You need ${(bmr * 1.12).round()} Calories for Mild weight gain (0.25 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16))
+                    : Text("You need ${(bmr * 0.88).round()} Calories for Mild weight loss (0.25 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16)),
                 const Divider(
                   thickness: 1,
                   color: Colors.white,
                 ),
                 _radioSelectedValue == 1
-                    ? Text(
-                        "You need ${(bmr * 1.24).round()} Calories for Average weight gain (0.5 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16))
-                    : Text(
-                        "You need ${(bmr * 0.76).round()} Calories for Average weight loss (0.5 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16)),
+                    ? Text("You need ${(bmr * 1.24).round()} Calories for Average weight gain (0.5 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16))
+                    : Text("You need ${(bmr * 0.76).round()} Calories for Average weight loss (0.5 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16)),
                 const Divider(
                   thickness: 1,
                   color: Colors.white,
                 ),
                 _radioSelectedValue == 1
-                    ? Text(
-                        "You need ${(bmr * 1.48).round()} Calories for Fast weight gain (1 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16))
-                    : Text(
-                        "You need ${(bmr * 0.52).round()} Calories for Extreme weight loss (1 kg/week).",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16)),
+                    ? Text("You need ${(bmr * 1.48).round()} Calories for Fast weight gain (1 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16))
+                    : Text("You need ${(bmr * 0.52).round()} Calories for Extreme weight loss (1 kg/week).", style: const TextStyle(color: Colors.white, fontSize: 16)),
                 const SizedBox(
                   height: 15,
                 ),
@@ -573,9 +518,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text("Okay",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18)))
+                        child: const Text("Okay", style: TextStyle(color: Colors.white, fontSize: 18)))
                   ],
                 )
               ],

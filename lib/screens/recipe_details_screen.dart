@@ -4,8 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
 import '../models/recipe_model.dart';
 
+// ignore: must_be_immutable
 class RecipeDetailsScreen extends StatelessWidget {
-  RecipeDetailsScreen({required this.recipe});
+  RecipeDetailsScreen({super.key, required this.recipe});
   RecipeModel recipe;
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,17 @@ class RecipeDetailsScreen extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Container(
+            SizedBox(
               height: 200,
-              child: Image.asset(
-                recipe.imgPath,
-                fit: BoxFit.cover,
-              ),
+              child: recipe.img == null
+                  ? Image.asset(
+                      kPersonAvatar,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      recipe.img!,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(
               height: 10,
@@ -36,20 +42,17 @@ class RecipeDetailsScreen extends StatelessWidget {
             const Text(
               "القيمة الغذائية للوجبة:",
               textDirection: TextDirection.rtl,
-              style: TextStyle(
-                  color: kPrimaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24),
+              style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 24),
             ),
             ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: recipe.nutritionalValue.length,
+                itemCount: recipe.nutration.length,
                 itemBuilder: ((context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
-                      "- ${recipe.nutritionalValue[index]}",
+                      "- ${recipe.nutration[index]}",
                       textDirection: TextDirection.rtl,
                       style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
@@ -67,10 +70,7 @@ class RecipeDetailsScreen extends StatelessWidget {
             const Text(
               "المكونات:",
               textDirection: TextDirection.rtl,
-              style: TextStyle(
-                  color: kPrimaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24),
+              style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 24),
             ),
             ListView.builder(
                 shrinkWrap: true,
@@ -98,10 +98,7 @@ class RecipeDetailsScreen extends StatelessWidget {
             const Text(
               "الخطوات:",
               textDirection: TextDirection.rtl,
-              style: TextStyle(
-                  color: kPrimaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24),
+              style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 24),
             ),
             ListView.builder(
                 shrinkWrap: true,

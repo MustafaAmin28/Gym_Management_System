@@ -1,72 +1,73 @@
 import 'dart:convert';
+
+import 'package:gym_graduation_app/constants.dart';
+
 import 'person_model.dart';
 import 'trainer_model.dart';
 
 class TraineeModel extends PersonModel {
-  // List<TrainerModel>? contractors = [];
-
   TraineeModel({
-    required String role,
-    String? username,
-    String? password,
-    required int id,
+    String role = "trainee",
+    required String id,
     required String name,
-    required int age,
     required String email,
-    required String phone,
-    dynamic image,
-    num? height,
-    num? weight,
-    List? contractors,
+    String? photo,
+    String? deviceToken,
+    List? private,
   }) : super(
           role: role,
-          username: username,
-          password: password,
           id: id,
           name: name,
-          age: age,
           email: email,
-          phone: phone,
-          image: image,
-          height: height,
-          weight: weight,
-          contractors: contractors ?? [],
+          photo: photo,
+          deviceToken: deviceToken,
+          private: private ?? [],
         );
 
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'role': role,
-      'username': username,
-      'password': password,
-      'id': id,
-      'name': name,
-      'age': age,
-      'email': email,
-      'phone': phone,
-      'image': image,
-      'weight': weight,
-      'height': height,
-      'contractors': contractors.map((x) => x.toMap()).toList(),
+      "role": role,
+      "id": id,
+      "name": name,
+      "email": email,
+      "image": photo,
+      "private": private.map((x) => x.toMap()).toList(),
     };
   }
 
   factory TraineeModel.fromMap(Map<String, dynamic> map) {
     return TraineeModel(
-      role: map['role'],
-      username: map['username'],
-      password: map['password'],
-      id: map['id'],
-      name: map['name'],
-      age: map['age'],
-      email: map['email'],
-      phone: map['phone'],
-      image: map['image'] ?? 'assets/images/Trainer_avatar.png',
-      weight: map['weight'],
-      height: map['height'],
-      contractors: List<TrainerModel>.from(
-        map['contractors'].map((x) => TrainerModel.fromMap(x)),
-      ),
+      role: map["user"]["role"] ?? "trainee",
+      id: map["user"]["_id"],
+      name: map["user"]["name"],
+      email: map["user"]["email"],
+      photo: map["user"]["photo"] == null ? null : "http://$server/img/users/${map["user"]["photo"]}",
+      deviceToken: map["user"]["deviceToken"] ?? " ",
+      private: map["private"] == null
+          ? []
+          : (map["private"] is List)
+              ? List<TrainerModel>.from(map["private"].map((x) => TrainerModel.fromPrivateMap(x["trainer"])))
+              : [TrainerModel.fromPrivateMap(map["private"]["trainer"])],
+    );
+  }
+
+  factory TraineeModel.traineesFromMap(Map<String, dynamic> map) {
+    return TraineeModel(
+      role: map["role"] ?? "trainee",
+      id: map["_id"],
+      name: map["name"],
+      email: map["email"],
+      photo: map["photo"] == null ? null : "http://$server/img/users/${map["photo"]}",
+    );
+  }
+  factory TraineeModel.fromPrivateMap(Map<String, dynamic> map) {
+    return TraineeModel(
+      role: map["role"] ?? "trainee",
+      id: map["_id"],
+      name: map["name"],
+      email: map["email"],
+      photo: map["photo"] == null ? null : "http://$server/img/users/${map["photo"]}",
     );
   }
 

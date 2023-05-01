@@ -130,12 +130,14 @@ class Message {
   final String? to;
   final Map<String, dynamic>? data;
   final Notification? notification;
+  // ignore: non_constant_identifier_names
   final List<String>? registration_ids;
 
   Message({
     this.to,
     this.data,
     this.notification,
+    // ignore: non_constant_identifier_names
     this.registration_ids,
   });
 
@@ -143,6 +145,7 @@ class Message {
     String? to,
     Map<String, dynamic>? data,
     Notification? notification,
+    // ignore: non_constant_identifier_names
     List<String>? registration_ids,
   }) {
     return Message(

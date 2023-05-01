@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gym_graduation_app/helper/api.dart';
+import 'package:gym_graduation_app/screens/add_announcement_screen.dart';
+import 'package:gym_graduation_app/screens/add_income_screen.dart';
+import 'package:gym_graduation_app/screens/create_exercise_screen.dart';
+import 'package:gym_graduation_app/screens/create_recipe_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../components/custom_inkwell.dart';
 import '../constants.dart';
-import 'check_user_screen.dart';
+import 'login_screen.dart';
+import 'qr_scanner_screen.dart';
 import 'trainees_screen.dart';
 
+// ignore: must_be_immutable
 class AdminScreen extends StatelessWidget {
-  AdminScreen({required this.adminUsername});
-  String adminUsername;
+  const AdminScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,29 +31,112 @@ class AdminScreen extends StatelessWidget {
           Icons.admin_panel_settings,
           color: Colors.white,
         ),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('admin');
+
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext ctx) => const LoginScreen()));
+              },
+              icon: Icon(FontAwesomeIcons.arrowRightFromBracket))
+        ],
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
-          CustomInkWell(
-              image: 'assets/images/Trainees_background.jpg',
-              title: 'Trainees',
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const TraineesScreen();
-                }));
-              },
-              textBackgroundColor: Colors.black.withOpacity(0.5)),
-          CustomInkWell(
-              image: 'assets/images/QR_Scan_Background.jpg',
-              title: 'Check User',
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CheckUserScreen();
-                }));
-              },
-              textBackgroundColor: Colors.black.withOpacity(0.5)),
+          SizedBox(
+            height: 600,
+            child: GridView(
+              padding: const EdgeInsets.all(8),
+              physics: const BouncingScrollPhysics(),
+              clipBehavior: Clip.none,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+              ),
+              children: [
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/Trainees_background.jpg',
+                    title: 'Trainees & Trainers',
+                    onTap: () async {
+                      List traineesList = [];
+                      await getTrainees(trainees: traineesList);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return TraineesScreen(
+                          trainees: traineesList,
+                        );
+                      }));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/QR_Scan_Background.jpg',
+                    title: 'Scan QR',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const QrScannerScreen();
+                      }));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/createExerciseBackground.png',
+                    title: 'Create Exercise',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateExerciseScreen()));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/createRecipeBackground.jpg',
+                    title: 'Create Recipe',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateRecipeScreen()));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/addIncomeBackground.jpg',
+                    title: 'Add an Income',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AddIncomeScreen()));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+                CustomInkWell(
+                    width: 150,
+                    height: 150,
+                    image: 'assets/images/announcementBackground.jpg',
+                    title: 'Announcement',
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AddAnnouncementScreen()));
+                    },
+                    textBackgroundColor: Colors.black.withOpacity(0.5)),
+              ],
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  getTrainees({required List trainees}) async {
+    final response = await Api.getUser();
+    if (response["status"] == "success") {
+      for (int i = 0; i < response["length"]; i++) {
+        trainees.add(response["data"]["users"][i]);
+      }
+    } else {
+      Fluttertoast.showToast(msg: response["message"]);
+    }
   }
 }

@@ -4,13 +4,8 @@ class CustomElevatedButton extends StatelessWidget {
   final String buttonText;
   final double width, height;
   final Color? buttonColor;
-  VoidCallback? onTap;
-  CustomElevatedButton(
-      {required this.buttonText,
-      required this.height,
-      required this.width,
-      required this.buttonColor,
-      required this.onTap});
+  final VoidCallback? onTap;
+  const CustomElevatedButton({super.key, required this.buttonText, required this.height, required this.width, required this.buttonColor, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

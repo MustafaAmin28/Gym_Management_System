@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-
-import '../components/custom_elevated_button.dart';
 import '../components/person_card.dart';
 import '../constants.dart';
 import '../models/trainee_model.dart';
-import '../services/users.dart';
-import 'add_trainee_screen.dart';
-import 'profile_screen.dart';
+import 'trainee_profile_screen.dart';
 
+// ignore: must_be_immutable
 class TraineesScreen extends StatefulWidget {
-  const TraineesScreen({super.key});
-
-  static String id = 'Trainees Screen';
-
+  TraineesScreen({super.key, required this.trainees});
+  List trainees = [];
   @override
   State<TraineesScreen> createState() => _TraineesScreenState();
 }
@@ -24,7 +19,7 @@ class _TraineesScreenState extends State<TraineesScreen> {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           title: const Text(
-            "Trainees",
+            "Trainees & Trainers",
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
           leading: const Icon(
@@ -36,34 +31,17 @@ class _TraineesScreenState extends State<TraineesScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: Users.length,
+                itemCount: widget.trainees.length,
                 itemBuilder: (context, index) {
                   return PersonCard(
-                    person: TraineeModel.fromMap(Users[index]),
+                    person: TraineeModel.traineesFromMap(widget.trainees[index]),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ProfileScreen(
-                            person: TraineeModel.fromMap(Users[index]));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return TraineeProfileScreen(trainee: TraineeModel.traineesFromMap(widget.trainees[index]));
                       }));
                     },
                     height: 130,
                   );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: CustomElevatedButton(
-                buttonText: 'Add New Trainee',
-                height: 60,
-                width: 230,
-                buttonColor: kPrimaryColor,
-                onTap: () async {
-                  await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                    return AddTraineeScreen();
-                  })).then((value) => setState(() {}));
                 },
               ),
             ),

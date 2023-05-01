@@ -1,34 +1,15 @@
 import 'package:flutter/material.dart';
-
+import 'package:gym_graduation_app/models/exercise_model.dart';
 import '../components/exercise_card.dart';
 import '../constants.dart';
-import '../services/exercises.dart';
 
+// ignore: must_be_immutable
 class SpecificBodyPartExercisesScreen extends StatelessWidget {
-  const SpecificBodyPartExercisesScreen({super.key, required this.bodyPartName});
-  final String bodyPartName;
+  SpecificBodyPartExercisesScreen({super.key, required this.exerciseList});
+
+  List<ExerciseModel> exerciseList = [];
   @override
   Widget build(BuildContext context) {
-    List exerciseType() {
-      if (bodyPartName == 'Chest') {
-        return chestExercises;
-      } else if (bodyPartName == 'Back') {
-        return backExercises;
-      } else if (bodyPartName == 'Shoulders') {
-        return shouldersExercises;
-      } else if (bodyPartName == 'Legs') {
-        return legsExercises;
-      } else if (bodyPartName == "Arm") {
-        return armExercises;
-      } else if (bodyPartName == 'Upper Body') {
-        return upperPartExercises;
-      } else if (bodyPartName == 'Lower Body') {
-        return lowerPartExercises;
-      } else {
-        return [];
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -39,14 +20,10 @@ class SpecificBodyPartExercisesScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
-        itemCount: exerciseType().length,
+        itemCount: exerciseList.length,
         itemBuilder: ((context, index) {
           return ExerciseCard(
-            thumbnailPath: exerciseType()[index].imgPath,
-            exerciseTitle: exerciseType()[index].name,
-            exerciseDescription: "Beginner",
-            videoPath: exerciseType()[index].videoPath,
-            steps: exerciseType()[index].steps,
+            exercise: exerciseList[index],
           );
         }),
       ),
