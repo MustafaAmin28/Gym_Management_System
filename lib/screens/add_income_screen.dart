@@ -52,31 +52,35 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
             hintText: "Price",
             labelText: "Price",
             controller: price,
+            keyboardType: TextInputType.number,
             fillColor: Colors.white.withOpacity(0.1),
             mainColor: kPrimaryColor,
           ),
           const SizedBox(
             height: 30,
           ),
-          CustomElevatedButton(
-              buttonText: "Add",
-              height: 50,
-              width: double.infinity,
-              buttonColor: kPrimaryColor,
-              onTap: () async {
-                if (price.text.isNotEmpty && income.text.isNotEmpty) {
-                  final response = await Api.addIncome(body: {"reason": income.text, "price": double.parse(price.text)});
-                  if (response["status"] == "success") {
-                    Fluttertoast.showToast(msg: "Submitted");
-                    income.clear();
-                    price.clear();
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CustomElevatedButton(
+                buttonText: "Add",
+                height: 50,
+                width: double.infinity,
+                buttonColor: kPrimaryColor,
+                onTap: () async {
+                  if (price.text.isNotEmpty && income.text.isNotEmpty) {
+                    final response = await Api.addIncome(body: {"reason": income.text, "price": double.parse(price.text)});
+                    if (response["status"] == "success") {
+                      Fluttertoast.showToast(msg: "Submitted");
+                      income.clear();
+                      price.clear();
+                    } else {
+                      Fluttertoast.showToast(msg: response["message"]);
+                    }
                   } else {
-                    Fluttertoast.showToast(msg: response["message"]);
+                    Fluttertoast.showToast(msg: "Please fill all fields before submitting");
                   }
-                } else {
-                  Fluttertoast.showToast(msg: "Please fill all fields before submitting");
-                }
-              })
+                }),
+          )
         ],
       ),
     );

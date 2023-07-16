@@ -4,7 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_graduation_app/components/custom_elevated_button.dart';
 import 'package:gym_graduation_app/components/custom_text_field.dart';
+import 'package:gym_graduation_app/fcm_service.dart' as fcm;
 import '../constants.dart';
+import '../helper/api.dart';
 
 class AddAnnouncementScreen extends StatefulWidget {
   const AddAnnouncementScreen({super.key});
@@ -69,9 +71,12 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
     );
   }
 
-  void addAnnouncment({required String announcement}) {
+  void addAnnouncment({required String announcement}) async {
     try {
-      announcements.add({'announcement': announcement, 'date': DateTime.now()});
+      DateTime date = await Api.getCurrentTime();
+      announcements.add({'announcement': announcement, 'date': date});
+      final message = fcm.Message(notification: fcm.Notification(title: "EDGE GYM", body: "🔈 Announcement"));
+      fcm.FcmService.sendToTopic("EVERYONE", message);
     } on Exception catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }

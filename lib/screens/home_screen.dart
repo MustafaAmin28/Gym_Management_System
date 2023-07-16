@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gym_graduation_app/fcm_service.dart';
 import 'package:gym_graduation_app/helper/api.dart';
 import 'package:gym_graduation_app/models/recipe_model.dart';
 import 'package:gym_graduation_app/screens/announcements_screen.dart';
@@ -124,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () async {
                 List<RecipeModel> recipesList = [];
                 await getRecipes(recipesList: recipesList);
-                // ignore: use_build_context_synchronously
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return RecipesScreen(recipesList: recipesList);
                 }));
@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.remove('user');
                 prefs.remove('trainer');
-                // ignore: use_build_context_synchronously
+                FcmService.deleteToken();
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext ctx) => const LoginScreen()));
               },
             ),

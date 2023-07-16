@@ -9,14 +9,16 @@ import 'package:image_picker/image_picker.dart';
 import '../components/chat_bubble.dart';
 import '../constants.dart';
 import '../fcm_service.dart' as fcm;
+import '../helper/api.dart';
 import '../models/message_model.dart';
 import '../models/person_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 // ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, required this.receiverParticipant});
+  ChatScreen({super.key, required this.receiverParticipant, this.deviceToken});
   PersonModel receiverParticipant;
+  String? deviceToken;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -239,22 +241,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void addMessage({required sentMessage, required String messageType}) async {
     try {
+      DateTime date = await Api.getCurrentTime();
       messages.add({
         'messageText': sentMessage,
         'messageType': messageType,
-        'messageDate': DateTime.now(),
+        'messageDate': date,
         'senderID': loggedUser!.email,
         'receiverID': widget.receiverParticipant.email,
       });
+      final message = fcm.Message(
+        to: widget.deviceToken,
+        notification: fcm.Notification(title: "EDGE GYM", body: messageType == 'Text' ? "${loggedUser!.name}: ${sentMessage}" : "You received a media file"),
+      );
+      fcm.FcmService.send(message);
     } on Exception catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
-    // final message = fcm.Message(
-    //   to: widget.receiverParticipant.deviceToken,
-    //   data: {"sender": loggedUser.toMap()},
-    //   notification: fcm.Notification(title: "A new message from ${loggedUser.email}", body: sentMessage),
-    // );
-    // fcm.FcmService.send(message);
   }
 
   Future<String> uploadFile() async {

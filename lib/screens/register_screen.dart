@@ -57,7 +57,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     selectedImage = await photo.readAsBytes();
                   }
                   setState(() {});
-                  // ignore: use_build_context_synchronously
                 },
                 child: CircleAvatar(
                   backgroundColor: kPrimaryColor,

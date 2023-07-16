@@ -92,6 +92,14 @@ class TrainerProfileScreen extends StatelessWidget {
                 height: 15,
               ),
               CustomListTile(
+                leading: FontAwesomeIcons.calendarDays,
+                title: "${trainer.age} years",
+                border: true,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              CustomListTile(
                 leading: FontAwesomeIcons.phone,
                 title: trainer.phone,
                 border: true,
@@ -100,7 +108,7 @@ class TrainerProfileScreen extends StatelessWidget {
                 height: 15,
               ),
               CustomListTile(
-                leading: FontAwesomeIcons.calendarDays,
+                leading: FontAwesomeIcons.star,
                 title: "${trainer.experience} experience",
                 border: true,
               ),
@@ -111,6 +119,38 @@ class TrainerProfileScreen extends StatelessWidget {
                 leading: FontAwesomeIcons.book,
                 title: trainer.biography,
                 border: true,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: kPrimaryColor),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Skills:",
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: trainer.skills.length,
+                        itemBuilder: ((context, index) {
+                          return Text(
+                            "- ${trainer.skills[index]}",
+                            style: const TextStyle(color: Colors.white, fontSize: 18),
+                          );
+                        })),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 15,

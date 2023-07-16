@@ -125,7 +125,7 @@ class _CreateExerciseScreenState extends State<CreateExerciseScreen> {
                         exerciseSteps.clear();
                       });
                     } else {
-                      Fluttertoast.showToast(msg: "You must enter a step, this field cannot be empty!");
+                      Fluttertoast.showToast(msg: "You must enter at least one step, this field cannot be empty!");
                     }
                   },
                   icon: const Icon(

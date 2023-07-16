@@ -26,15 +26,12 @@ class SplashScreen extends StatelessWidget {
       } else if (trainerPref != null) {
         final trainer = jsonDecode(trainerPref);
         loggedUser = TrainerModel.fromMap(trainer);
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else if (userPref != null) {
         final user = jsonDecode(userPref);
         loggedUser = TraineeModel.fromMap(user);
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else {
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
     });

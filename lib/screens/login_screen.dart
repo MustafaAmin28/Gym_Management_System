@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gym_graduation_app/fcm_service.dart';
 import 'package:gym_graduation_app/helper/api.dart';
 import 'package:gym_graduation_app/models/person_model.dart';
 import 'package:gym_graduation_app/models/trainee_model.dart';
@@ -181,29 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  // Row(
-                  //   children: [
-                  //     Checkbox(
-                  //         activeColor: kPrimaryColor,
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(2.0),
-                  //         ),
-                  //         side: const BorderSide(color: kPrimaryColor, width: 2),
-                  //         value: isAdmin,
-                  //         onChanged: (value) {
-                  //           setState(() {
-                  //             isAdmin = value!;
-                  //           });
-                  //         }),
-                  //     const Text(
-                  //       'Admin',
-                  //       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                  //     )
-                  //   ],
-                  // ),
-                  // const SizedBox(
-                  //   height: 15,
-                  // ),
                   CustomElevatedButton(
                     buttonText: "Login",
                     height: 50,
@@ -251,33 +229,38 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response["status"] == "success") {
       emailController.clear();
       passwordController.clear();
+      await sendDeviceToken(response);
       assignUser(response);
-      // ignore: use_build_context_synchronously
     } else {
       Fluttertoast.showToast(msg: response["message"]);
     }
+  }
+
+  Future<void> sendDeviceToken(response) async {
+    final deviceToken = await FcmService.getToken();
+    Api.patchDeviceToken(userId: response["id"], deviceToken: deviceToken!);
   }
 
   void assignUser(response) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userResponse = await Api.getUser(userId: response["id"]);
     if (userResponse["status"] == "success") {
+      FcmService.subscribeTo("EVERYONE");
       if (userResponse["user"]["role"] == "user" || userResponse["user"]["role"] == "trainee") {
         loggedUser = TraineeModel.fromMap(userResponse);
         prefs.setString('user', jsonEncode(userResponse));
+        loggedUser!.private.forEach((trainer) => FcmService.subscribeTo((trainer as TrainerModel).id));
 
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else if (userResponse["user"]["role"] == "trainer") {
         final trainerResponse = await Api.getTrainer(trainerEmail: userResponse["user"]["email"]);
 
         loggedUser = TrainerModel.fromMap(trainerResponse);
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
         prefs.setString('trainer', jsonEncode(trainerResponse));
       } else if (userResponse["user"]["role"] == "admin") {
+        FcmService.unsubscribeFrom("EVERYONE");
         prefs.setString('admin', userResponse["user"]["email"]);
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const AdminScreen()));
       } else {
         Fluttertoast.showToast(msg: "there is an error");

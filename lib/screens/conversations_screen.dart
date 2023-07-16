@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_graduation_app/screens/login_screen.dart';
 import '../components/person_card.dart';
+import '../helper/api.dart';
 import '../models/trainer_model.dart';
 import 'chat_screen.dart';
 
@@ -32,9 +33,14 @@ class ConversationsScreen extends StatelessWidget {
             return PersonCard(
               height: 100,
               person: loggedUser!.private[index],
-              onTap: () {
+              onTap: () async {
+                String deviceToken = await getTrainerToken(loggedUser!.private[index].email);
+                print(deviceToken);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ChatScreen(receiverParticipant: loggedUser!.private[index]);
+                  return ChatScreen(
+                    receiverParticipant: loggedUser!.private[index],
+                    deviceToken: deviceToken,
+                  );
                 }));
               },
             );
@@ -42,5 +48,13 @@ class ConversationsScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<String> getTrainerToken(String email) async {
+    final response = await Api.getDeviceToken(email: email);
+    if (response["data"]["users"][0]["deviceToken"] != null)
+      return response["data"]["users"][0]["deviceToken"];
+    else
+      return "no token yet";
   }
 }

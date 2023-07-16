@@ -124,7 +124,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     child: Slider(
                         value: weight.toDouble(),
                         min: 20.0,
-                        max: 150.0,
+                        max: 180.0,
                         onChanged: (double newValue) {
                           setState(() {
                             weight = newValue.round();

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_graduation_app/components/custom_list_tile_v2.dart';
 import 'package:gym_graduation_app/constants.dart';
 import 'package:gym_graduation_app/models/announcement_model.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class AnnouncementsScreen extends StatelessWidget {
@@ -43,7 +44,7 @@ class AnnouncementsScreen extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                        "${announcmentsList[index].date.toDate().day}-${announcmentsList[index].date.toDate().month}-${announcmentsList[index].date.toDate().year}, ${announcmentsList[index].date.toDate().hour}:${announcmentsList[index].date.toDate().toLocal().minute}",
+                        "${announcmentsList[index].date.toDate().day}-${announcmentsList[index].date.toDate().month}-${announcmentsList[index].date.toDate().year}, ${DateFormat.jm().format(announcmentsList[index].date.toDate().toLocal())}",
                         style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 10)),
                   );
                 }),

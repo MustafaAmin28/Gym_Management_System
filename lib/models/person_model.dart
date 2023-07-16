@@ -5,7 +5,7 @@ import 'package:gym_graduation_app/constants.dart';
 
 class PersonModel {
   final String? role;
-  final String? deviceToken;
+  String? deviceToken;
   final String id;
   final String name;
   final String email;

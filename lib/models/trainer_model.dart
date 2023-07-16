@@ -23,7 +23,7 @@ class TrainerModel extends PersonModel {
     required this.experience,
     required this.skills,
     List? private,
-  }) : super(role: role, id: id, name: name, email: email, private: private ?? [], photo: photo);
+  }) : super(role: role, id: id, name: name, age: age, email: email, private: private ?? [], photo: photo);
 
   @override
   Map<String, dynamic> toMap() {
@@ -45,7 +45,7 @@ class TrainerModel extends PersonModel {
   factory TrainerModel.fromMap(Map<String, dynamic> map) {
     return TrainerModel(
         role: map["trainer"]["role"] ?? "trainer",
-        id: map["trainer"]["_id"],
+        id: map["trainer"]["signId"] ?? map["trainer"]["_id"],
         name: map["trainer"]["name"],
         age: map["trainer"]["age"],
         skills: map["trainer"]["skills"] ?? [],
@@ -63,7 +63,7 @@ class TrainerModel extends PersonModel {
   factory TrainerModel.trainersFromMap(Map<String, dynamic> map) {
     return TrainerModel(
       role: map["role"] ?? "trainer",
-      id: map["_id"],
+      id: map["signId"] ?? map["_id"],
       name: map["name"],
       age: map["age"],
       skills: map["skills"] ?? [],
@@ -78,7 +78,7 @@ class TrainerModel extends PersonModel {
   factory TrainerModel.fromPrivateMap(Map<String, dynamic> map) {
     return TrainerModel(
       role: map["role"] ?? "trainer",
-      id: map["_id"],
+      id: map["signId"] ?? map["_id"],
       name: map["name"],
       age: map["age"],
       skills: map["skills"] ?? [],

@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:gym_graduation_app/models/person_model.dart';
-import 'package:gym_graduation_app/screens/chat_screen.dart';
-import 'package:http/http.dart' as http;
 
-import 'main.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'package:http/http.dart' as http;
 
 /*
 Example:
@@ -55,8 +52,12 @@ class FcmService {
     return FirebaseMessaging.instance.getToken();
   }
 
+  static Future<void> deleteToken() {
+    return FirebaseMessaging.instance.deleteToken();
+  }
+
   static Future<Map<String, dynamic>> send(Message message) async {
-    Uri uri = Uri.https("fcm.googleapis.com/fcm/send");
+    Uri uri = Uri.parse("https://fcm.googleapis.com/fcm/send");
 
     final response = await http.post(
       uri,
@@ -76,28 +77,27 @@ class FcmService {
 
   static void _handleMessage(RemoteMessage? message, [bool isForeground = false]) {
     if (message == null) return;
-    if (message.data["sender"] == null) return;
-    final sender = PersonModel.fromJson(message.data["sender"]);
-
+    // if (message.data["sender"] == null) return;
+    // final sender = PersonModel.fromJson(message.data["sender"]);
     if (isForeground) {
       _showNotification(message.notification);
-      showDialog(
-        context: navigatorKey.currentState!.context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(message.notification!.title!),
-            content: Text(message.notification!.body!),
-            actions: [
-              TextButton(child: const Text("Ignore"), onPressed: () => navigatorKey.currentState!.pop()),
-              TextButton(child: const Text("Open"), onPressed: () => navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => ChatScreen(receiverParticipant: sender)))),
-            ],
-          );
-        },
-      );
+      // showDialog(
+      //   context: navigatorKey.currentState!.context,
+      //   builder: (context) {
+      //     return AlertDialog(
+      //       title: Text(message.notification!.title!),
+      //       content: Text(message.notification!.body!),
+      //       actions: [
+      //         TextButton(child: const Text("Ignore"), onPressed: () => navigatorKey.currentState!.pop()),
+      //         TextButton(child: const Text("Open"), onPressed: () => navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => ChatScreen(receiverParticipant: sender)))),
+      //       ],
+      //     );
+      //   },
+      // );
       return;
     }
 
-    navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => ChatScreen(receiverParticipant: sender)));
+    // navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => ChatScreen(receiverParticipant: sender)));
   }
 
   static void _showNotification(RemoteNotification? notification) {
@@ -193,7 +193,10 @@ class Notification {
   }
 
   factory Notification.fromMap(Map<String, dynamic> map) {
-    return Notification(title: map['title'], body: map['body']);
+    return Notification(
+      title: map['title'],
+      body: map['body'],
+    );
   }
 
   String toJson() => json.encode(toMap());

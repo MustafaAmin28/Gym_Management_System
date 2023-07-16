@@ -30,7 +30,7 @@ class _BmrScreenState extends State<BmrScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
-        title: const Text("Calculators"),
+        title: const Text("BMR Calculator"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
@@ -196,7 +196,7 @@ class _BmrScreenState extends State<BmrScreen> {
                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0)),
                     child: Slider(
                         value: height.toDouble(),
-                        min: 60.0,
+                        min: 80.0,
                         max: 220.0,
                         onChanged: (double newValue) {
                           setState(() {
@@ -274,9 +274,11 @@ class _BmrScreenState extends State<BmrScreen> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              setState(() {
-                                weight++;
-                              });
+                              if (weight < 180) {
+                                setState(() {
+                                  weight++;
+                                });
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -362,9 +364,11 @@ class _BmrScreenState extends State<BmrScreen> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              setState(() {
-                                age++;
-                              });
+                              if (age < 100) {
+                                setState(() {
+                                  age++;
+                                });
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),

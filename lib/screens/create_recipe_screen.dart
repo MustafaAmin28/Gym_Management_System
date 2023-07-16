@@ -66,7 +66,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                 child: CustomTextFormField(
                   maxLines: 5,
                   hintText: "Recipe Ingredients",
-                  labelText: "Ingreidents",
+                  labelText: "Ingredients",
                   controller: recipeIngredients,
                   fillColor: Colors.white.withOpacity(0.1),
                   mainColor: kPrimaryColor,
@@ -81,7 +81,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         recipeIngredients.clear();
                       });
                     } else {
-                      Fluttertoast.showToast(msg: "You must enter a step, this field cannot be empty!");
+                      Fluttertoast.showToast(msg: "You must enter at least one Ingredient, this field cannot be empty!");
                     }
                   },
                   icon: const Icon(
@@ -133,8 +133,8 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                 width: 340,
                 child: CustomTextFormField(
                   maxLines: 5,
-                  hintText: "Recipe Nutrations",
-                  labelText: "Nutrations",
+                  hintText: "Recipe Nutritions",
+                  labelText: "Nutritions",
                   controller: recipeNutrations,
                   fillColor: Colors.white.withOpacity(0.1),
                   mainColor: kPrimaryColor,
@@ -149,7 +149,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         recipeNutrations.clear();
                       });
                     } else {
-                      Fluttertoast.showToast(msg: "You must enter a step, this field cannot be empty!");
+                      Fluttertoast.showToast(msg: "You must enter at least one nutrition, this field cannot be empty!");
                     }
                   },
                   icon: const Icon(
@@ -217,7 +217,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                         recipeSteps.clear();
                       });
                     } else {
-                      Fluttertoast.showToast(msg: "You must enter a step, this field cannot be empty!");
+                      Fluttertoast.showToast(msg: "You must enter at least one step, this field cannot be empty!");
                     }
                   },
                   icon: const Icon(

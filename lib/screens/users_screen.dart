@@ -5,21 +5,21 @@ import '../models/trainee_model.dart';
 import 'trainee_profile_screen.dart';
 
 // ignore: must_be_immutable
-class TraineesScreen extends StatefulWidget {
-  TraineesScreen({super.key, required this.trainees});
-  List trainees = [];
+class UsersScreen extends StatefulWidget {
+  UsersScreen({super.key, required this.users});
+  List users = [];
   @override
-  State<TraineesScreen> createState() => _TraineesScreenState();
+  State<UsersScreen> createState() => _UsersScreenState();
 }
 
-class _TraineesScreenState extends State<TraineesScreen> {
+class _UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           title: const Text(
-            "Trainees",
+            "Users",
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
           leading: const Icon(
@@ -31,13 +31,13 @@ class _TraineesScreenState extends State<TraineesScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: widget.trainees.length,
+                itemCount: widget.users.length,
                 itemBuilder: (context, index) {
                   return PersonCard(
-                    person: TraineeModel.traineesFromMap(widget.trainees[index]),
+                    person: TraineeModel.traineesFromMap(widget.users[index]),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return TraineeProfileScreen(trainee: TraineeModel.traineesFromMap(widget.trainees[index]));
+                        return TraineeProfileScreen(trainee: TraineeModel.traineesFromMap(widget.users[index]));
                       }));
                     },
                     height: 130,

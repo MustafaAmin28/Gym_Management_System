@@ -89,6 +89,16 @@ class TraineeProfileScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
+              trainee.role != null
+                  ? CustomListTile(
+                      leading: FontAwesomeIcons.userGear,
+                      title: trainee.role!,
+                      border: true,
+                    )
+                  : const SizedBox(),
+              const SizedBox(
+                height: 15,
+              ),
             ],
           ),
         ))

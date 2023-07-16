@@ -6,7 +6,6 @@ import '../helper/api.dart';
 import '../main.dart';
 import '../models/exercise_model.dart';
 import 'exercises_screen.dart';
-import 'pricing_plans_screen.dart';
 import 'specific_body_part_exercises.dart';
 import 'trainers_screen.dart';
 

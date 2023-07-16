@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_graduation_app/models/message_model.dart';
 import 'package:gym_graduation_app/screens/login_screen.dart';
+import 'package:intl/intl.dart';
 
 import '../constants.dart';
 import '../screens/full_screen_file.dart';
@@ -56,6 +57,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                     child: GestureDetector(
                       child: CachedNetworkImage(
                           imageUrl: widget.message.message,
+                          height: 500,
                           progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
                           errorWidget: (context, url, error) => Image.asset(kFailedNetworkImage)),
                       onTap: () {
@@ -99,7 +101,7 @@ class _ChatBubbleState extends State<ChatBubble> {
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 4, 4),
-                child: Text("${widget.message.messageDate.toDate().hour}:${widget.message.messageDate.toDate().toLocal().minute}", style: const TextStyle(color: Colors.white70, fontSize: 10)),
+                child: Text("${DateFormat.jm().format(widget.message.messageDate.toDate().toLocal())}", style: const TextStyle(color: Colors.white70, fontSize: 10)),
               ),
             ],
           ),

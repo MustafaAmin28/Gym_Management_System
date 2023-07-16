@@ -23,6 +23,15 @@ class Api {
     }
   }
 
+  static Future<dynamic> getDeviceToken({required String email}) async {
+    try {
+      http.Response response = await http.get(Uri.parse("http://$server/api/v1/users/?email=$email"));
+      return jsonDecode(response.body);
+    } on Exception catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   static Future<dynamic> getRecipes() async {
     try {
       http.Response response = await http.get(Uri.parse("http://$server/api/v1/receipies"));
@@ -82,11 +91,11 @@ class Api {
     }
   }
 
-  static Future<dynamic> patchDeviceToken({required String userId, required Map<String, String> deviceToken}) async {
+  static Future<dynamic> patchDeviceToken({required String userId, required String deviceToken}) async {
     try {
       http.Response response = await http.patch(
         Uri.parse("http://$server/api/v1/users/$userId"),
-        body: jsonEncode(deviceToken),
+        body: jsonEncode({"deviceToken": deviceToken}),
         headers: {"content-type": "application/json"},
       );
       return jsonDecode(response.body);
@@ -161,6 +170,16 @@ class Api {
       return jsonDecode(responseData.body);
     } on Exception catch (e) {
       Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  static Future<dynamic> getCurrentTime({String timeZone = "Africa/Cairo"}) async {
+    try {
+      http.Response response = await http.get(Uri.parse("https://worldtimeapi.org/api/timezone/$timeZone"));
+
+      return DateTime.parse(jsonDecode(response.body)["datetime"]);
+    } on Exception catch (e) {
+      return DateTime.now();
     }
   }
 }
